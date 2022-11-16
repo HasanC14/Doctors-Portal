@@ -1,10 +1,28 @@
-import React from "react";
+import React, { useContext } from "react";
+import swal from "sweetalert";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../../Context/AuthProvider";
 import Button from "../Button/Button";
 
 const Navbar = () => {
+  const { User, LogOut } = useContext(AuthContext);
+  const HandleLogout = () => {
+    LogOut()
+      .then(() => {
+        swal({
+          title: "Logout Successful",
+          button: "OK",
+        });
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
   const MenuItems = (
     <React.Fragment>
+      <li className="text-xl font-bold block md:hidden">
+        <p>{User?.displayName}</p>
+      </li>
       <li>
         <Link to={"/"}>Home</Link>
       </li>
@@ -14,12 +32,20 @@ const Navbar = () => {
       <li>
         <Link to={"/About"}>About</Link>
       </li>
-      <li>
-        <Link to={"/Login"}>Login</Link>
-      </li>
-      <li>
-        <Link to={"/Reviews"}>Reviews</Link>
-      </li>
+      {User ? (
+        <li>
+          <button onClick={HandleLogout}>Logout</button>
+        </li>
+      ) : (
+        <>
+          <li>
+            <Link to={"/Login"}>Login</Link>
+          </li>
+          <li>
+            <Link to={"/Register"}>Register</Link>
+          </li>
+        </>
+      )}
     </React.Fragment>
   );
   return (
@@ -59,6 +85,9 @@ const Navbar = () => {
         </div>
         <div className="navbar-end">
           <Button>Get Started</Button>
+        </div>
+        <div className="text-lg font-bold  hidden md:block mx-2">
+          <p>{User?.displayName}</p>
         </div>
       </div>
     </div>

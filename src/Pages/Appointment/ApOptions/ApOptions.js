@@ -1,5 +1,4 @@
 import React from "react";
-import ApModal from "../ApModal/ApModal";
 
 const ApOptions = ({ option, selected, setTreatment }) => {
   return (
@@ -16,7 +15,7 @@ const ApOptions = ({ option, selected, setTreatment }) => {
           disabled={option.slots.length === 0}
           htmlFor="my-modal-3"
           className="btn btn-primary bg-gradient-to-r from-primary to-secondary hover:from-secondary hover:to-primary"
-          onClick={(setTreatment = option)}
+          onClick={() => setTreatment(option)}
         >
           Book Appointment
         </label>
