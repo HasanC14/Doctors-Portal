@@ -1,12 +1,12 @@
 import React, { useContext } from "react";
 import { Navigate, useLocation } from "react-router-dom";
 import { AuthContext } from "../../../Context/AuthProvider";
-
-const PrivateRoute = ({ children }) => {
+import UseAdmin from "../../UseAdmin/UseAdmin";
+const AdminRoute = ({ children }) => {
   const { User, loading } = useContext(AuthContext);
-
+  const [isAdmin, isAdminLoading] = UseAdmin(User?.email);
   let location = useLocation();
-  if (loading) {
+  if (loading || isAdminLoading) {
     return (
       <div>
         <div className="flex justify-center">
@@ -15,11 +15,11 @@ const PrivateRoute = ({ children }) => {
       </div>
     );
   }
-  if (!User) {
-    return <Navigate to="/Login" state={{ from: location }} replace></Navigate>;
-  } else {
+  if (isAdmin) {
     return children;
+  } else {
+    return <Navigate to="/Login" state={{ from: location }} replace></Navigate>;
   }
 };
 
-export default PrivateRoute;
+export default AdminRoute;

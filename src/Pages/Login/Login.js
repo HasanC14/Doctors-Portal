@@ -8,8 +8,8 @@ import { AuthContext } from "../../Context/AuthProvider";
 const Login = () => {
   const { Login, LoginWithGoogle, LoginWithGitHub } = useContext(AuthContext);
   const [error, setError] = useState();
-  // const location = useLocation();
-  // const from = location.state?.from?.pathname || "/";
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
   const navigate = useNavigate();
 
   const HandleForm = (event) => {
@@ -19,7 +19,7 @@ const Login = () => {
     const password = form.password.value;
     Login(email, password)
       .then(() => {
-        //navigate(from, { replace: true });
+        navigate(from, { replace: true });
 
         swal({
           title: "Login Successful",
@@ -35,7 +35,7 @@ const Login = () => {
   const HandleGoogle = () => {
     LoginWithGoogle()
       .then(() => {
-        //navigate(from, { replace: true });
+        navigate(from, { replace: true });
         swal({
           title: "Login Successful",
           button: "OK",
@@ -49,7 +49,7 @@ const Login = () => {
   const HandleGitHub = () => {
     LoginWithGitHub()
       .then(() => {
-        //navigate(from, { replace: true });
+        navigate(from, { replace: true });
         swal({
           title: "Login Successful",
           button: "OK",

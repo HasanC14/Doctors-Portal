@@ -18,7 +18,7 @@ const Register = () => {
     const password = form.password.value;
 
     Register(email, password)
-      .then(() => {
+      .then((data) => {
         swal({
           title: "Successfully Registered",
           button: "OK",
@@ -28,7 +28,10 @@ const Register = () => {
         navigate("/");
         const profile = { displayName: Username, photoURL: photoURL };
         UpdateUser(profile)
-          .then(() => {})
+          .then(() => {
+            console.log(data);
+            SaveUser(Username, email);
+          })
           .catch((error) => {
             setError(error.message);
           });
@@ -36,6 +39,14 @@ const Register = () => {
       .catch((error) => {
         setError(error.message);
       });
+  };
+  const SaveUser = (name, email) => {
+    const user = { name, email };
+    fetch("http://localhost:5000/user", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(user),
+    }).then((res) => res.json());
   };
   return (
     <div>
